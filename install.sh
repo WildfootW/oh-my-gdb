@@ -1,3 +1,9 @@
+# clone submodule
+git submodule init
+git submodule update
+echo "finished clone submodule"
+
+# create ~/.gdbinit
 # Absolute path to this script, e.g. /home/user/Pwngdb/install.sh
 SCRIPT=$(readlink -f "$0")
 # Absolute path this script is in, thus /home/user/Pwngdb
@@ -11,3 +17,6 @@ echo "python" >> ~/.gdbinit
 echo "import angelheap" >> ~/.gdbinit
 echo "angelheap.init_angelheap()" >> ~/.gdbinit
 echo "end" >> ~/.gdbinit
+echo "finished create ~/.gdbinit"
+
+echo "Successful install pwngdb, peda, and angelheap~"
