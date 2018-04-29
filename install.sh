@@ -1,3 +1,5 @@
+#!/bin/bash
+
 # clone submodule
 git submodule init
 git submodule update
@@ -8,10 +10,15 @@ echo "finished clone submodule"
 SCRIPT=$(readlink -f "$0")
 # Absolute path this script is in, thus /home/user/Pwngdb
 SCRIPTPATH=$(dirname "$SCRIPT")
-echo "source $SCRIPTPATH/peda/peda.py" > ~/.gdbinit
+
+> ~/.gdbinit
+cd ./pwndbg
+source ./setup.sh
+cd ..
+#echo "source $SCRIPTPATH/peda/peda.py" > ~/.gdbinit
 echo "source $SCRIPTPATH/pwngdb.py" >> ~/.gdbinit
 echo "source $SCRIPTPATH/angelheap/gdbinit.py" >> ~/.gdbinit
-echo "\n" >> ~/.gdbinit
+printf "\n" >> ~/.gdbinit
 echo "define hook-run" >> ~/.gdbinit
 echo "python" >> ~/.gdbinit
 echo "import angelheap" >> ~/.gdbinit
@@ -19,4 +26,4 @@ echo "angelheap.init_angelheap()" >> ~/.gdbinit
 echo "end" >> ~/.gdbinit
 echo "finished create ~/.gdbinit"
 
-echo "Successful install pwngdb, peda, and angelheap~"
+echo "Successful install pwndbg and angelheap~"

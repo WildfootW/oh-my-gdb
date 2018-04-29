@@ -1,3 +1,6 @@
 [submodule "peda"]
 	path = peda
 	url = https://github.com/longld/peda.git
+[submodule "pwndbg"]
+	path = pwndbg
+	url = https://github.com/Wildfoot/pwndbg.git

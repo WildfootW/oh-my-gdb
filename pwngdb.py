@@ -102,7 +102,7 @@ class PwnCmd(object):
                 print("\033[34m" + hex(sym)  + ":" + "\033[37m" +hex(symaddr))
             else :
                 print("\033[34m" + sym  + ":" + "\033[37m" +hex(symaddr))
-    
+
     def fp(self,*arg):
         """ show FILE structure """
         (addr,) = normalize_argv(arg,1)
@@ -128,7 +128,7 @@ class PwnCmd(object):
     def magic(self):
         """ Print usefual variables or function in glibc """
         getarch()
-        
+
         try :
             print("========== function ==========")
             for f in magic_function :
