@@ -11,19 +11,14 @@ SCRIPT=$(readlink -f "$0")
 # Absolute path this script is in, thus /home/user/Pwngdb
 SCRIPTPATH=$(dirname "$SCRIPT")
 
-> ~/.gdbinit
 cd ./pwndbg
 source ./setup.sh
 cd ..
-#echo "source $SCRIPTPATH/peda/peda.py" > ~/.gdbinit
-echo "source $SCRIPTPATH/pwngdb.py" >> ~/.gdbinit
-echo "source $SCRIPTPATH/angelheap/gdbinit.py" >> ~/.gdbinit
-printf "\n" >> ~/.gdbinit
-echo "define hook-run" >> ~/.gdbinit
-echo "python" >> ~/.gdbinit
-echo "import angelheap" >> ~/.gdbinit
-echo "angelheap.init_angelheap()" >> ~/.gdbinit
-echo "end" >> ~/.gdbinit
+
+> ~/.gdbinit
+echo "add-auto-load-safe-path $SCRIPTPATH/.gdbinit" >> ~/.gdbinit
+echo "source $SCRIPTPATH/.gdbinit" >> ~/.gdbinit
+
 echo "finished create ~/.gdbinit"
 
 echo "Successful install pwndbg and angelheap~"
