@@ -1,6 +1,7 @@
 source ~/workplace/Capture-the-flag/WF_Capture-The-Flag_Tools/Pwngdb/Pwngdb/pwndbg/gdbinit.py
 source ~/workplace/Capture-the-flag/WF_Capture-The-Flag_Tools/Pwngdb/Pwngdb/pwngdb.py
 source ~/workplace/Capture-the-flag/WF_Capture-The-Flag_Tools/Pwngdb/Pwngdb/angelheap/gdbinit.py
+source ~/workplace/Capture-the-flag/WF_Capture-The-Flag_Tools/Pwngdb/Pwngdb/glibc-source/gdbinit
 
 define hook-run
 python

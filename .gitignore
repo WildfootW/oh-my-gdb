@@ -1,4 +1,5 @@
 .gdb_history
+glibc-source/glibc*
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
