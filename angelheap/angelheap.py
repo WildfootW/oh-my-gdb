@@ -20,10 +20,11 @@ tcache_max_bin = 0
 
 # chunks
 top = {}
-fastbinsize = 10
+fastbinsize = 13
 fastbin = []
 fastchunk = [] #save fastchunk address for chunkinfo check
 tcache_entry = []
+tcache_count = []
 last_remainder = {}
 unsortbin = []
 smallbin = {}  #{size:bin}
@@ -488,10 +489,10 @@ def get_curthread():
     thread_id = int(gdb.execute(cmd,to_string=True).split("thread is")[1].split()[0].strip())
     return thread_id
 
-def get_max_thread():
-    cmd = "info thread"
-    max_thread = int(gdb.execute(cmd,to_string=True).replace("*","").split("\n")[-2].split()[0].strip())
-    return max_thread
+def get_all_threads():
+    cmd = "info threads"
+    all_threads = [int(line.split()[0].strip()) for line in gdb.execute(cmd, to_string=True).replace("*", "").split("\n")[1:-1]]
+    return all_threads
 
 def thread_cmd_execute(thread_id,thread_cmd):
     cmd = "thread apply %d %s" % (thread_id,thread_cmd)
@@ -513,6 +514,12 @@ def get_tcache():
         except :
             heapbase = get_heapbase()
             if heapbase != 0 :
+                cmd = "x/" + word + hex(heapbase + capsize*1)
+                f_size = int(gdb.execute(cmd,to_string=True).split(":")[1].strip(),16)
+                while(f_size == 0):
+                    heapbase += capsize*2
+                    cmd = "x/" + word + hex(heapbase + capsize*1)
+                    f_size = int(gdb.execute(cmd,to_string=True).split(":")[1].strip(),16)
                 tcache = heapbase + capsize*2
             else :
                 tcache = 0
@@ -520,12 +527,27 @@ def get_tcache():
         tcache_enable = False
         tcache = 0
 
+def get_tcache_count() :
+    global tcache_count
+    tcache_count = []
+    if not tcache_enable :
+        return
+    if capsize == 0 :
+        arch = getarch()
+    count_size = int(tcache_max_bin/capsize)
+    for i in range(count_size):
+        cmd = "x/" + word + hex(tcache + i*capsize)
+        c = int(gdb.execute(cmd,to_string=True).split(":")[1].strip(),16)
+        for j in range(capsize):
+            tcache_count.append((c >> j*8) & 0xff)
+
 def get_tcache_entry():
     global tcache_entry
     get_tcache()
     if not tcache_enable :
         return
     tcache_entry = []
+    get_tcache_count()
     if capsize == 0 :
         arch = getarch()
     if tcache and tcache_max_bin :
@@ -1135,7 +1157,9 @@ def put_tcache():
     for i,entry in enumerate(tcache_entry):
         cursize = (capsize*2)*(i+2)
         if len(tcache_entry[i]) > 0 :
-            print("\033[33;1m(0x%02x)   tcache_entry[%d]:\033[37m " % (cursize,i),end = "")
+            print("\033[33;1m(0x%02x)   tcache_entry[%d]\033[32m(%d)\033[33;1m:\033[37m " % (cursize,i,tcache_count[i]),end = "")
+        elif tcache_count[i] > 0:            
+            print("\033[33;1m(0x%02x)   tcache_entry[%d]\033[31;1m(%d)\033[33;1m:\033[37m 0\n" % (cursize,i,tcache_count[i]),end = "")
         for chunk in entry :
             if "memerror" in chunk :
                 print("\033[31m0x%x (%s)\033[37m" % (chunk["addr"]+capsize*2,chunk["memerror"]),end = "")
@@ -1155,6 +1179,7 @@ def put_tcache():
                 print(" --> ",end = "")
         if len(tcache_entry[i]) > 0 :
             print("")
+
     return True
 
 
@@ -1204,7 +1229,7 @@ def putheapinfo(arena=None):
                 print(" <--> ",end = "")
         print("") 
     for idx,bins in largebin.items():
-        print("\033[33m  %15s[%2d]:\033[37m " % ("largebin",idx),end="")
+        print("\033[33m  %15s[%2d]:\033[37m " % ("largebin",idx-64),end="")
         for chunk in bins :
             if "memerror" in chunk :
                 print("\033[31m0x%x (%s)\033[37m" % (chunk["addr"],chunk["memerror"]),end = "")
@@ -1251,8 +1276,8 @@ def putarenainfo():
 
 def putheapinfoall():
     cur_thread_id = get_curthread()
-    max_thread = get_max_thread()
-    for thread_id in range(1,max_thread+1):
+    all_threads = get_all_threads()
+    for thread_id in all_threads:
         if thread_id == cur_thread_id :
             print("\033[33;1m"+("  Thread " + str(thread_id) + "  ").center(50,"=") + "\033[0m",end="")
         else :
@@ -1275,7 +1300,8 @@ def parse_heap(arena=None):
         print("can't find heap info")
         return
 
-    chunkaddr = get_heapbase()
+    hb = get_heapbase()
+    chunkaddr = hb
     if not chunkaddr:
         print("Can't find heap")
         return
@@ -1287,6 +1313,9 @@ def parse_heap(arena=None):
             cmd = "x/" + word + hex(chunkaddr + capsize*1)
             size = int(gdb.execute(cmd,to_string=True).split(":")[1].strip(),16)
             cmd = "x/" + word + hex(chunkaddr + capsize*2)
+            if size == 0 and chunkaddr == hb :
+                chunkaddr += capsize*2
+                continue
             fd = int(gdb.execute(cmd,to_string=True).split(":")[1].strip(),16)
             cmd = "x/" + word + hex(chunkaddr + capsize*3)
             bk = int(gdb.execute(cmd,to_string=True).split(":")[1].strip(),16)

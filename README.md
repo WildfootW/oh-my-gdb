@@ -5,9 +5,11 @@ GDB for pwn.
 ## Install
 
 ### install
-```
-./install.sh
-```
+	cd ~/
+	git clone https://github.com/scwuaptx/Pwngdb.git 
+	cp ~/Pwngdb/.gdbinit ~/
+
+If you dont want to use gdb-peda , you can modify the gdbinit to remove it.
 
 ### Heapinfo 
 
