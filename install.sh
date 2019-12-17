@@ -11,14 +11,19 @@ SCRIPT=$(readlink -f "$0")
 # Absolute path this script is in, thus /home/user/Pwngdb
 SCRIPTPATH=$(dirname "$SCRIPT")
 
+# setup pwndbg
 cd ./pwndbg
-source ./setup.sh
+#source ./setup.sh
 cd ..
 
+# write ~/.gdbinit
 > ~/.gdbinit
 echo "add-auto-load-safe-path $SCRIPTPATH/.gdbinit" >> ~/.gdbinit
 echo "source $SCRIPTPATH/.gdbinit" >> ~/.gdbinit
 
 echo "finished create ~/.gdbinit"
 
-echo "Successful install pwndbg and angelheap~"
+# install
+cp "$SCRIPTPATH/bin/"* "$SCRIPTPATH/../../bin/"
+
+echo "Successful Install oh-my-gdb"

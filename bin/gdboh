@@ -1,0 +1,7 @@
+#!/bin/sh
+#   Version 
+#   Author: WildfootW
+#   GitHub: github.com/WildfootW
+#
+
+exec gdb -q -ex "init-pwndbg" -ex "init-pwngdb" -ex "init-glibc-source" "$@"
