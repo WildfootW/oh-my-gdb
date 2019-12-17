@@ -1,4 +1,5 @@
 .gdb_history
+*.swp
 glibc-source/glibc*
 
 # Byte-compiled / optimized / DLL files

@@ -1,3 +1,8 @@
+# oh-my-gdb
+
+## Reference
+https://medium.com/bugbountywriteup/pwndbg-gef-peda-one-for-all-and-all-for-one-714d71bf36b8
+
 # Pwngdb
 
 GDB for pwn.

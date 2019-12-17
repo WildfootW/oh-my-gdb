@@ -1,1 +1,1 @@
-set directories ~/Workplace/cybersecurity/Security-Tools/Pwngdb/Pwngdb/glibc-source/glibc-2.29/malloc
+set directories ~/Workplace/cybersecurity/Tools/oh-my-gdb/oh-my-gdb/glibc-source/glibc-2.27/malloc

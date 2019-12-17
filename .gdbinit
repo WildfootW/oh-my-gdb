@@ -1,7 +1,7 @@
-source ~/Workplace/cybersecurity/Security-Tools/Pwngdb/Pwngdb/pwndbg/gdbinit.py
-source ~/Workplace/cybersecurity/Security-Tools/Pwngdb/Pwngdb/pwngdb.py
-source ~/Workplace/cybersecurity/Security-Tools/Pwngdb/Pwngdb/angelheap/gdbinit.py
-source ~/Workplace/cybersecurity/Security-Tools/Pwngdb/Pwngdb/glibc-source/gdbinit
+source ~/Workplace/cybersecurity/Tools/oh-my-gdb/oh-my-gdb/pwndbg/gdbinit.py
+source ~/Workplace/cybersecurity/Tools/oh-my-gdb/oh-my-gdb/pwngdb/pwngdb.py
+source ~/Workplace/cybersecurity/Tools/oh-my-gdb/oh-my-gdb/angelheap/gdbinit.py
+source ~/Workplace/cybersecurity/Tools/oh-my-gdb/oh-my-gdb/glibc-source/gdbinit
 
 define hook-run
 python
