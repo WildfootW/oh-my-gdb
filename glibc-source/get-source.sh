@@ -11,3 +11,8 @@ SCRIPT=$(readlink -f "$0")
 SCRIPTPATH=$(dirname "$SCRIPT")
 
 apt-get source glibc
+
+echo -n "set directories " > "$SCRIPTPATH/.gdbinit"
+echo "`find $SCRIPTPATH -mindepth 1 -maxdepth 1 -type d`/malloc" >> "$SCRIPTPATH/.gdbinit"
+rm "$SCRIPTPATH/"*".tar.xz"
+rm "$SCRIPTPATH/"*".dsc"

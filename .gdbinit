@@ -18,7 +18,7 @@ end
 
 # * * * glibc-source * * *
 define init-glibc-source
-    source ~/Workplace/cybersecurity/Tools/oh-my-gdb/oh-my-gdb/glibc-source/gdbinit
+    source ~/Workplace/cybersecurity/Tools/oh-my-gdb/oh-my-gdb/glibc-source/.gdbinit
 end
 document init-glibc-source
     Set directory for glibc source

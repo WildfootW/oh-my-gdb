@@ -13,7 +13,7 @@ SCRIPTPATH=$(dirname "$SCRIPT")
 
 # setup pwndbg
 cd ./pwndbg
-#source ./setup.sh
+./setup.sh
 cd ..
 
 # write ~/.gdbinit
@@ -21,9 +21,10 @@ cd ..
 echo "add-auto-load-safe-path $SCRIPTPATH/.gdbinit" >> ~/.gdbinit
 echo "source $SCRIPTPATH/.gdbinit" >> ~/.gdbinit
 
-echo "finished create ~/.gdbinit"
+# download source of glibc
+cd ./glibc-source
+./get-source.sh
+cd ..
 
-# install
-cp "$SCRIPTPATH/bin/"* "$SCRIPTPATH/../../bin/"
-
+# Finished
 echo "Successful Install oh-my-gdb"
