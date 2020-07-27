@@ -16,15 +16,15 @@ cd ./pwndbg
 ./setup.sh
 cd ..
 
-# write ~/.gdbinit
-> ~/.gdbinit
-echo "add-auto-load-safe-path $SCRIPTPATH/.gdbinit" >> ~/.gdbinit
-echo "source $SCRIPTPATH/.gdbinit" >> ~/.gdbinit
-
 # download source of glibc
 cd ./glibc-source
 ./get-source.sh
 cd ..
+
+# write ~/.gdbinit
+> ~/.gdbinit
+echo "add-auto-load-safe-path $SCRIPTPATH/.gdbinit" >> ~/.gdbinit
+echo "source $SCRIPTPATH/.gdbinit" >> ~/.gdbinit
 
 # Finished
 echo "Successful Install oh-my-gdb"
