@@ -1,3 +1,0 @@
-[submodule "pwndbg"]
-	path = pwndbg
-	url = https://github.com/WildfootW/pwndbg.git
